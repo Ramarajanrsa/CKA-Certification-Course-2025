@@ -247,18 +247,23 @@ sudo systemctl status containerd
 
 ---
 
-## Step 3: Install kubeadm, kubelet, kubectl (v1.32) \[ALL NODES]
+## Step 3: Install kubeadm, kubelet, kubectl (v1.34) \[ALL NODES]
 
 ```bash
 sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key \
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.34/deb/Release.key \
  | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' \
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.34/deb/ /' \
  | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
-sudo apt-get update && sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-get update
+
+# To see the new version labels
+sudo apt-cache madison kubeadm
+
+sudo apt-get install -y kubelet=1.34.0-1.1 kubeadm=1.34.0-1.1 kubectl=1.34.0-1.1
+
 sudo apt-mark hold kubelet kubeadm kubectl
-sudo systemctl enable kubelet
 
 # Verify
 kubeadm version
