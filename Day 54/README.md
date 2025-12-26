@@ -312,8 +312,11 @@ source ~/.bashrc
 
 ```bash
 # Replace with your control plane node's private IP
-IP_ADDR=$(ip addr show eth0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
-kubeadm init --apiserver-cert-extra-sans=controlplane --apiserver-advertise-address $IP_ADDR --pod-network-cidr=172.17.0.0/16 --service-cidr=172.20.0.0/16
+# Replace with your control plane node's private IP
+sudo kubeadm init \
+  --control-plane-endpoint=<CP_PRIVATE_IP>:6443 \
+  --apiserver-advertise-address=<CP_PRIVATE_IP> \
+  --pod-network-cidr=192.168.0.0/16
 ```
 
 ```bash
